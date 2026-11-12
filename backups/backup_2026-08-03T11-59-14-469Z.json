@@ -1,0 +1,1303 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-08-03T11:59:10.219Z",
+  "admins": [
+    {
+      "_id": "6a01751a743e9eaa397f0433",
+      "username": "admin",
+      "email": "jayamproj@gmail.com",
+      "password": "$2b$10$iKzNvdl3Xjx1.EBcPnkF3.F.eu68yUlkJ6wrus.L/OzoCQxJMo5ri",
+      "role": "admin",
+      "tokenVersion": 4,
+      "createdAt": "2026-05-11T06:20:10.501Z",
+      "updatedAt": "2026-05-18T07:03:29.134Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a450a514b111feab9e52214",
+      "username": "Ashifa Begam M",
+      "email": "jayamweb.promo1@gmail.com",
+      "password": "$2b$10$rENYP/ElMtaXPnd/HKP9N.3Td2w1f/1xVuQ4alXfIFQmJpmVlCxRa",
+      "role": "admin",
+      "tokenVersion": 0,
+      "createdAt": "2026-07-01T12:38:41.936Z",
+      "updatedAt": "2026-07-29T08:51:17.839Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a47a567baacd7ebed27883a",
+      "username": "jayamwebsolutionspvtltd",
+      "email": "jayamwebsolutionspvtltd@gmail.com",
+      "password": "$2b$10$bZ81N9ZuARIrbZiMcFlhL.nqLjTjPQrNdu3SbMjalWkTsbT2ZyZb2",
+      "role": "admin",
+      "tokenVersion": 0,
+      "createdAt": "2026-07-03T12:04:55.426Z",
+      "updatedAt": "2026-07-03T12:04:55.426Z",
+      "__v": 0
+    }
+  ],
+  "autoReminderSettings": [
+    {
+      "_id": "6a436a5e5924a3ac9b2ceae7",
+      "enabled": false,
+      "daysBefore": 30,
+      "sendExpiredEmail": true,
+      "sendDeletionEmail": true,
+      "deletionDaysAfter": 7,
+      "createdAt": "2026-06-30T07:03:58.623Z",
+      "updatedAt": "2026-07-02T05:43:04.328Z",
+      "__v": 0
+    }
+  ],
+  "customers": [],
+  "gstSettings": [
+    {
+      "_id": "6a11730b0b35cd87df698ec4",
+      "companyName": "JAYAM TECHNOLOGIES",
+      "companyNameWithoutGst": "JAYAM WEB SOLUTIONS",
+      "address": "No. 1, First Floor, First Street, Bharathi Nagar, \nOld Perungalathur, Chennai – 600 063. Tamil Nadu",
+      "addressWithoutGst": "No. 1, First Floor, First Street, Bharathi Nagar, \nOld Perungalathur, Chennai – 600 063. Tamil Nadu",
+      "phone": "+91 9677876445",
+      "phoneWithoutGst": "+91 44 43162953",
+      "email": "info@jayam.co.in",
+      "emailWithoutGst": "marketing@jayamwebsolutions.com",
+      "gstin": "33AOXPL4996D1ZC",
+      "cgstPercentage": 9,
+      "sgstPercentage": 9,
+      "igstPercentage": 18,
+      "signatureImage": "uploads/signature-1779770788927-646628182.jpg",
+      "createdAt": "2026-05-23T09:27:39.159Z",
+      "updatedAt": "2026-07-10T11:03:40.960Z",
+      "__v": 0
+    }
+  ],
+  "invoices": [
+    {
+      "_id": "6a6c80f2810d8ccd3de27dcf",
+      "customerId": "6a5daa6b86834b232dcdf8cb",
+      "orderId": "6a6050fae0b75ca6bbff2d35",
+      "customerName": "Ashifa Begam M",
+      "invoiceNo": "3242-JWS-07-2026",
+      "invoiceType": "withoutGST",
+      "invoiceDate": "2026-07-31",
+      "items": [
+        {
+          "orderId": "6a6050fae0b75ca6bbff2d35",
+          "quantity": 1,
+          "domainName": "Domain.com",
+          "price": 1699,
+          "description": "Domain & Hosting for Domain.com for one year from 31/07/2026 to 31/07/2027",
+          "_id": "6a6c80f2810d8ccd3de27dd0"
+        }
+      ],
+      "subtotal": 1699,
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 0,
+      "totalPrice": 1699,
+      "priceinword": "One Thousand Six Hundred and Ninety Nine Only",
+      "paymentStatus": "Paid",
+      "createdAt": "2026-07-31T11:03:14.385Z",
+      "updatedAt": "2026-07-31T11:03:14.385Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a6c814b810d8ccd3de29c08",
+      "customerId": "6a5daa6b86834b232dcdf8cb",
+      "orderId": "6a60525ae0b75ca6bbff313d",
+      "customerName": "Ashifa Begam M",
+      "invoiceNo": "JT017-07-2026",
+      "invoiceType": "withGST",
+      "invoiceDate": "2026-07-31",
+      "items": [
+        {
+          "orderId": "6a60525ae0b75ca6bbff313d",
+          "quantity": 1,
+          "domainName": "jayaproj.com",
+          "price": 200,
+          "description": "Hosting for jayaproj.com for one year from 31/07/2026 to 31/07/2027",
+          "_id": "6a6c81c0810d8ccd3de2b19a"
+        }
+      ],
+      "subtotal": 200,
+      "cgst": 18,
+      "sgst": 18,
+      "igst": 0,
+      "totalPrice": 236,
+      "priceinword": "Two Hundred and Thirty Six Only",
+      "paymentStatus": "Paid",
+      "createdAt": "2026-07-31T11:04:43.610Z",
+      "updatedAt": "2026-07-31T11:06:40.725Z",
+      "__v": 2
+    },
+    {
+      "_id": "6a704013533ee694bd797a13",
+      "customerId": "6a42521adc180118edf43d4a",
+      "orderId": "6a42525cdc180118edf43d7a",
+      "customerName": "IQ",
+      "invoiceNo": "3243-JWS-08-2026",
+      "invoiceType": "withoutGST",
+      "invoiceDate": "2026-08-03",
+      "items": [
+        {
+          "orderId": "6a42525cdc180118edf43d7a",
+          "quantity": 1,
+          "domainName": "qrcodedownloads.com",
+          "price": 3500,
+          "description": "Domain & Hosting for qrcodedownloads.com for one year from 03/08/2026 to 03/08/2027",
+          "_id": "6a705209533ee694bd798ebd"
+        }
+      ],
+      "subtotal": 3500,
+      "cgst": 0,
+      "sgst": 0,
+      "igst": 0,
+      "totalPrice": 3500,
+      "priceinword": "Three Thousand Five Hundred Only",
+      "paymentStatus": "Paid",
+      "createdAt": "2026-08-03T07:15:31.917Z",
+      "updatedAt": "2026-08-03T08:32:09.373Z",
+      "__v": 2
+    }
+  ],
+  "products": [
+    {
+      "_id": "6a1413356d351b1202083f69",
+      "name": "Domain",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Jayam or 3rd party",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "jayam",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd435a"
+            },
+            {
+              "value": "3rd party",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd435b"
+            }
+          ],
+          "_id": "6a51e6977330e370c9dd4359"
+        },
+        {
+          "name": "Extension",
+          "priceEnable": true,
+          "options": [
+            {
+              "value": ".com",
+              "sellerPrice": 1499,
+              "costPrice": 1344,
+              "sellerPriceRenewal": 1600,
+              "costPriceRenewal": 1500,
+              "_id": "6a51e6977330e370c9dd435d"
+            },
+            {
+              "value": ".in",
+              "sellerPrice": 1099,
+              "costPrice": 884,
+              "sellerPriceRenewal": 1098,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd435e"
+            },
+            {
+              "value": ".co.in",
+              "sellerPrice": 1099,
+              "costPrice": 766,
+              "sellerPriceRenewal": 1099,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd435f"
+            },
+            {
+              "value": ".net",
+              "sellerPrice": 1999,
+              "costPrice": 1769,
+              "sellerPriceRenewal": 1899,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd4360"
+            },
+            {
+              "value": ".org",
+              "sellerPrice": 1899,
+              "costPrice": 1677,
+              "sellerPriceRenewal": 1499,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd4361"
+            },
+            {
+              "value": ".co",
+              "sellerPrice": 3999,
+              "costPrice": 3704,
+              "sellerPriceRenewal": 4999,
+              "costPriceRenewal": null,
+              "_id": "6a51e6977330e370c9dd4362"
+            }
+          ],
+          "_id": "6a51e6977330e370c9dd435c"
+        }
+      ],
+      "createdAt": "2026-05-25T09:15:33.255Z",
+      "updatedAt": "2026-07-11T06:45:43.081Z"
+    },
+    {
+      "_id": "6a14143d6d351b1202083f8b",
+      "name": "Email Account",
+      "packageEnabled": true,
+      "packages": [
+        {
+          "name": "Business",
+          "options": [
+            {
+              "name": "Mail box size",
+              "value": "5 GB Mail Box size"
+            },
+            {
+              "name": "no. of email accounts",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 30000,
+          "costPrice": 20000,
+          "sellerPriceRenewal": 35000,
+          "costPriceRenewal": 25000
+        },
+        {
+          "name": "Enterprise",
+          "options": [
+            {
+              "name": "Mail box size",
+              "value": "30 GB Mail Box size"
+            },
+            {
+              "name": "no. of email accounts",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 35000,
+          "costPrice": 30000,
+          "sellerPriceRenewal": 38000,
+          "costPriceRenewal": 32000
+        }
+      ],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-05-25T09:19:57.312Z",
+      "updatedAt": "2026-07-24T04:48:10.400Z"
+    },
+    {
+      "_id": "6a14148e6d351b1202083f98",
+      "name": "Website",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Website type",
+          "priceEnable": true,
+          "options": [
+            {
+              "value": "5 Page Static Website",
+              "sellerPrice": 14500,
+              "costPrice": 14500,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a2bc0b90e66e86f7690b2d1"
+            },
+            {
+              "value": "5 Page Dynamic Website",
+              "sellerPrice": 19500,
+              "costPrice": 19500,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a2bc0b90e66e86f7690b2d2"
+            },
+            {
+              "value": "5 + Multiple Page Dynamic Website",
+              "sellerPrice": 24500,
+              "costPrice": 24500,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a2bc0b90e66e86f7690b2d3"
+            }
+          ],
+          "_id": "6a2bc0b90e66e86f7690b2d0"
+        }
+      ],
+      "createdAt": "2026-05-25T09:21:18.832Z",
+      "updatedAt": "2026-06-12T08:18:01.032Z"
+    },
+    {
+      "_id": "6a2b9598fc06c8c8f97d30ae",
+      "name": "Hosting",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": true,
+      "subVariants": [
+        {
+          "variantName": "Hosting",
+          "subVariants": [
+            {
+              "name": "Share Hosting  1",
+              "priceEnable": true,
+              "options": [
+                {
+                  "name": "1 GB / 10 GB / 5 Email Account",
+                  "sellerPrice": 200,
+                  "costPrice": 100,
+                  "sellerPriceRenewal": 3500,
+                  "costPriceRenewal": 150
+                },
+                {
+                  "name": "3 GB / 30 GB / 10 Email Account",
+                  "sellerPrice": 900,
+                  "costPrice": 500,
+                  "sellerPriceRenewal": 4950,
+                  "costPriceRenewal": 600
+                },
+                {
+                  "name": "5 GB /50 GB / 15 Email Account",
+                  "sellerPrice": 0,
+                  "costPrice": 0,
+                  "sellerPriceRenewal": 6350,
+                  "costPriceRenewal": 0
+                }
+              ]
+            },
+            {
+              "name": "Share Hosting  2",
+              "priceEnable": true,
+              "options": [
+                {
+                  "name": "10 GB / 100 GB / 10 Email Account",
+                  "sellerPrice": 500,
+                  "costPrice": 200,
+                  "sellerPriceRenewal": 9950,
+                  "costPriceRenewal": 0
+                },
+                {
+                  "name": "15 GB / 1000 GB / 20 Email Account",
+                  "sellerPrice": 1000,
+                  "costPrice": 500,
+                  "sellerPriceRenewal": 14950,
+                  "costPriceRenewal": 0
+                },
+                {
+                  "name": "20 GB / 1000 GB / 25 Email Account",
+                  "sellerPrice": 0,
+                  "costPrice": 0,
+                  "sellerPriceRenewal": 19950,
+                  "costPriceRenewal": 0
+                }
+              ]
+            },
+            {
+              "name": "VPS hosting 1",
+              "priceEnable": true,
+              "options": [
+                {
+                  "name": "4 GB/ 1 TB / 40 GB Disk space",
+                  "sellerPrice": 0,
+                  "costPrice": 0,
+                  "sellerPriceRenewal": 6450,
+                  "costPriceRenewal": 0
+                },
+                {
+                  "name": "6 GB / 2 TB / 80 GB Disk space",
+                  "sellerPrice": 0,
+                  "costPrice": 0,
+                  "sellerPriceRenewal": 8450,
+                  "costPriceRenewal": 0
+                },
+                {
+                  "name": "8 GB / 2 TB / 120 GB Disk space",
+                  "sellerPrice": 0,
+                  "costPrice": 0,
+                  "sellerPriceRenewal": 10450,
+                  "costPriceRenewal": 0
+                }
+              ]
+            },
+            {
+              "name": "Share Hosting 3",
+              "priceEnable": false,
+              "options": [
+                {
+                  "name": "3 GB",
+                  "sellerPrice": null,
+                  "costPrice": null,
+                  "sellerPriceRenewal": null,
+                  "costPriceRenewal": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-06-12T05:14:00.211Z",
+      "updatedAt": "2026-07-17T11:27:46.025Z"
+    },
+    {
+      "_id": "6a4391861ccd450f2efe87ad",
+      "name": "certificate",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "certificate",
+          "priceEnable": true,
+          "options": [
+            {
+              "value": "ssl certificate",
+              "sellerPrice": 5250,
+              "costPrice": 0,
+              "sellerPriceRenewal": 5250,
+              "costPriceRenewal": 0,
+              "_id": "6a464710011cbe6be0d0698f"
+            }
+          ],
+          "_id": "6a464710011cbe6be0d0698e"
+        }
+      ],
+      "createdAt": "2026-06-30T09:51:02.999Z",
+      "updatedAt": "2026-07-02T11:10:08.314Z"
+    },
+    {
+      "_id": "6a4393081ccd450f2efe8c17",
+      "name": "google workspace - India",
+      "packageEnabled": true,
+      "packages": [
+        {
+          "name": "Plan 1",
+          "options": [
+            {
+              "name": "Cloud Storage",
+              "value": "30GB"
+            }
+          ],
+          "sellerPrice": 4092,
+          "costPrice": 4092,
+          "sellerPriceRenewal": 4092,
+          "costPriceRenewal": 4092
+        },
+        {
+          "name": "Plan 2",
+          "options": [
+            {
+              "name": "Cloud Storage",
+              "value": "2TB"
+            }
+          ],
+          "sellerPrice": 16128,
+          "costPrice": 16128,
+          "sellerPriceRenewal": 16128,
+          "costPriceRenewal": 16128
+        },
+        {
+          "name": "Plan 3",
+          "options": [
+            {
+              "name": "Cloud Storage",
+              "value": "5TB"
+            }
+          ],
+          "sellerPrice": 28306,
+          "costPrice": 28306,
+          "sellerPriceRenewal": 28306,
+          "costPriceRenewal": 28306
+        },
+        {
+          "name": "Plan 4",
+          "options": [
+            {
+              "name": "Cloud Storage",
+              "value": "10 TB"
+            }
+          ],
+          "sellerPrice": 42466,
+          "costPrice": 42466,
+          "sellerPriceRenewal": 42466,
+          "costPriceRenewal": 42466
+        }
+      ],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-06-30T09:57:28.100Z",
+      "updatedAt": "2026-07-25T12:37:05.503Z"
+    },
+    {
+      "_id": "6a439a551ccd450f2efeaaa2",
+      "name": "gsuite",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "gsuite",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "3500",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a439a551ccd450f2efeaaa4"
+            }
+          ],
+          "_id": "6a439a551ccd450f2efeaaa3"
+        }
+      ],
+      "createdAt": "2026-06-30T10:28:37.010Z",
+      "updatedAt": "2026-06-30T10:28:37.010Z"
+    },
+    {
+      "_id": "6a439d611ccd450f2efeba16",
+      "name": "cloud hosting",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "linux",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "0",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a439d611ccd450f2efeba18"
+            }
+          ],
+          "_id": "6a439d611ccd450f2efeba17"
+        }
+      ],
+      "createdAt": "2026-06-30T10:41:37.493Z",
+      "updatedAt": "2026-06-30T10:41:37.493Z"
+    },
+    {
+      "_id": "6a43a0ba1ccd450f2efec73a",
+      "name": "GB",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "10 GB",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "6450",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a43a0ba1ccd450f2efec73c"
+            }
+          ],
+          "_id": "6a43a0ba1ccd450f2efec73b"
+        }
+      ],
+      "createdAt": "2026-06-30T10:55:54.881Z",
+      "updatedAt": "2026-06-30T10:55:54.881Z"
+    },
+    {
+      "_id": "6a4648ec011cbe6be0d06e7b",
+      "name": "Website maintenance",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "website maintenance",
+          "priceEnable": true,
+          "options": [
+            {
+              "value": "1 Year",
+              "sellerPrice": 9750,
+              "costPrice": 0,
+              "sellerPriceRenewal": 9750,
+              "costPriceRenewal": 0,
+              "_id": "6a4648ec011cbe6be0d06e7d"
+            }
+          ],
+          "_id": "6a4648ec011cbe6be0d06e7c"
+        }
+      ],
+      "createdAt": "2026-07-02T11:18:04.308Z",
+      "updatedAt": "2026-07-02T11:18:04.308Z"
+    },
+    {
+      "_id": "6a577233596a231a48619cea",
+      "name": "E -Magzine",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "E Magzine",
+          "priceEnable": true,
+          "options": [
+            {
+              "value": "E Magzine",
+              "sellerPrice": 0,
+              "costPrice": 0,
+              "sellerPriceRenewal": 15000,
+              "costPriceRenewal": 0,
+              "_id": "6a577233596a231a48619cec"
+            }
+          ],
+          "_id": "6a577233596a231a48619ceb"
+        }
+      ],
+      "createdAt": "2026-07-15T11:42:43.210Z",
+      "updatedAt": "2026-07-15T11:42:43.210Z"
+    },
+    {
+      "_id": "6a58b196b884b9d69682d5e6",
+      "name": "Single Domain",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Linux Hosting",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "15 GB (1000 Bandwith)",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a5b67cd86834b232dcd4aa9"
+            }
+          ],
+          "_id": "6a5b67cd86834b232dcd4aa8"
+        },
+        {
+          "name": "Hosting",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "15 GB Disk Space  150 GB Bandwidth",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a5b67cd86834b232dcd4aab"
+            }
+          ],
+          "_id": "6a5b67cd86834b232dcd4aaa"
+        }
+      ],
+      "createdAt": "2026-07-16T10:25:26.237Z",
+      "updatedAt": "2026-07-18T11:47:25.339Z"
+    },
+    {
+      "_id": "6a58c229b884b9d6968329e8",
+      "name": "Web Hosting",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Web Hosting",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "Hosting",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a58c229b884b9d6968329ea"
+            }
+          ],
+          "_id": "6a58c229b884b9d6968329e9"
+        }
+      ],
+      "createdAt": "2026-07-16T11:36:09.423Z",
+      "updatedAt": "2026-07-16T11:36:09.423Z"
+    },
+    {
+      "_id": "6a5b589f86834b232dcd14a4",
+      "name": "Single Domain",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Hosting",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "10 GB /20 Mail Account",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a5b589f86834b232dcd14a6"
+            }
+          ],
+          "_id": "6a5b589f86834b232dcd14a5"
+        }
+      ],
+      "createdAt": "2026-07-18T10:42:39.788Z",
+      "updatedAt": "2026-07-18T10:42:39.788Z"
+    },
+    {
+      "_id": "6a5b59d286834b232dcd22ea",
+      "name": "Email Support",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Email Support",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "1 Email",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a5b59d286834b232dcd22ec"
+            },
+            {
+              "value": "7 Email",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a5b59d286834b232dcd22ed"
+            }
+          ],
+          "_id": "6a5b59d286834b232dcd22eb"
+        }
+      ],
+      "createdAt": "2026-07-18T10:47:46.624Z",
+      "updatedAt": "2026-07-18T10:47:46.624Z"
+    },
+    {
+      "_id": "6a6451b33e82cc21eb6d17b6",
+      "name": "Titan Email (India)",
+      "packageEnabled": true,
+      "packages": [
+        {
+          "name": "Enterprise Email Account",
+          "options": [
+            {
+              "name": "Mail Box size",
+              "value": "50GB"
+            }
+          ],
+          "sellerPrice": 3500,
+          "costPrice": 2535,
+          "sellerPriceRenewal": 3500,
+          "costPriceRenewal": 2535
+        },
+        {
+          "name": "Professional",
+          "options": [
+            {
+              "name": "Mail Box Size",
+              "value": "5GB"
+            }
+          ],
+          "sellerPrice": 835,
+          "costPrice": 835,
+          "sellerPriceRenewal": 835,
+          "costPriceRenewal": 835
+        },
+        {
+          "name": "Premium",
+          "options": [
+            {
+              "name": "Mail Box Size",
+              "value": "10GB"
+            }
+          ],
+          "sellerPrice": 1262,
+          "costPrice": 1262,
+          "sellerPriceRenewal": 1262,
+          "costPriceRenewal": 1262
+        }
+      ],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-07-25T06:03:31.241Z",
+      "updatedAt": "2026-07-25T10:40:27.683Z"
+    },
+    {
+      "_id": "6a6497533e82cc21eb6d4026",
+      "name": "VPS Linux KVM (India)-NVMe",
+      "packageEnabled": true,
+      "packages": [
+        {
+          "name": "Plan 1",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "50 GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "1"
+            },
+            {
+              "name": "RAM",
+              "value": "2 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "1 TB"
+            }
+          ],
+          "sellerPrice": 8482,
+          "costPrice": 8482,
+          "sellerPriceRenewal": 8482,
+          "costPriceRenewal": 8482
+        },
+        {
+          "name": "Plan 2",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "100 GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "2"
+            },
+            {
+              "name": "RAM",
+              "value": "4 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "2 TB"
+            }
+          ],
+          "sellerPrice": 11314,
+          "costPrice": 11314,
+          "sellerPriceRenewal": 11314,
+          "costPriceRenewal": 11314
+        },
+        {
+          "name": "Plan 3",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "200 GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "4"
+            },
+            {
+              "name": "RAM",
+              "value": "8 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "3 TB"
+            }
+          ],
+          "sellerPrice": 17722,
+          "costPrice": 17722,
+          "sellerPriceRenewal": 17722,
+          "costPriceRenewal": 17722
+        },
+        {
+          "name": "Plan 4",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "300GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "4"
+            },
+            {
+              "name": "RAM",
+              "value": "12 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "4 TB"
+            }
+          ],
+          "sellerPrice": 36094,
+          "costPrice": 36094,
+          "sellerPriceRenewal": 36094,
+          "costPriceRenewal": 36094
+        },
+        {
+          "name": "Plan 5",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "400GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "6"
+            },
+            {
+              "name": "RAM",
+              "value": "16 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "6 TB"
+            }
+          ],
+          "sellerPrice": 60874,
+          "costPrice": 60874,
+          "sellerPriceRenewal": 60874,
+          "costPriceRenewal": 60874
+        },
+        {
+          "name": "Plan 6",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "450GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "8"
+            },
+            {
+              "name": "RAM",
+              "value": "16 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "8 TB"
+            }
+          ],
+          "sellerPrice": 91318,
+          "costPrice": 91318,
+          "sellerPriceRenewal": 91318,
+          "costPriceRenewal": 91318
+        },
+        {
+          "name": "Plan 7",
+          "options": [
+            {
+              "name": "Disk Space",
+              "value": "500GB"
+            },
+            {
+              "name": "CPU Core",
+              "value": "8"
+            },
+            {
+              "name": "RAM",
+              "value": "32 GB"
+            },
+            {
+              "name": "Bandwidth",
+              "value": "16 TB"
+            }
+          ],
+          "sellerPrice": 122470,
+          "costPrice": 122470,
+          "sellerPriceRenewal": 122470,
+          "costPriceRenewal": 122470
+        },
+        {
+          "name": "Add ons",
+          "options": [
+            {
+              "name": "cPanel License",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 19810,
+          "costPrice": 19810,
+          "sellerPriceRenewal": 19810,
+          "costPriceRenewal": 19810
+        },
+        {
+          "name": "Add ons",
+          "options": [
+            {
+              "name": "Managed Services",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 84946,
+          "costPrice": 84946,
+          "sellerPriceRenewal": 84946,
+          "costPriceRenewal": 84946
+        },
+        {
+          "name": "add ons",
+          "options": [
+            {
+              "name": "Dedicated IP",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 2407,
+          "costPrice": 2407,
+          "sellerPriceRenewal": 2407,
+          "costPriceRenewal": 2407
+        },
+        {
+          "name": "Add ons",
+          "options": [
+            {
+              "name": "WHMCS License",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 6783,
+          "costPrice": 6783,
+          "sellerPriceRenewal": 6783,
+          "costPriceRenewal": 6783
+        },
+        {
+          "name": "Add ons",
+          "options": [
+            {
+              "name": "cPanel Admin Cloud (5 domains)",
+              "value": "1"
+            }
+          ],
+          "sellerPrice": 14146,
+          "costPrice": 14146,
+          "sellerPriceRenewal": 14146,
+          "costPriceRenewal": 14146
+        }
+      ],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-07-25T11:00:35.172Z",
+      "updatedAt": "2026-07-25T12:13:58.302Z"
+    },
+    {
+      "_id": "6a64abce3e82cc21eb6d65e1",
+      "name": "Cloud Hosting - India",
+      "packageEnabled": true,
+      "packages": [
+        {
+          "name": "Plan 1",
+          "options": [
+            {
+              "name": "Single Domain",
+              "value": "1"
+            },
+            {
+              "name": "Core CPU",
+              "value": "2"
+            },
+            {
+              "name": "RAM",
+              "value": "4 GB"
+            },
+            {
+              "name": "SSD Storage",
+              "value": "50 GB"
+            }
+          ],
+          "sellerPrice": 14447,
+          "costPrice": 14447,
+          "sellerPriceRenewal": 14447,
+          "costPriceRenewal": 14447
+        },
+        {
+          "name": "Plan 2",
+          "options": [
+            {
+              "name": "Unlimited Domains",
+              "value": "5"
+            },
+            {
+              "name": "Core CPU",
+              "value": "4"
+            },
+            {
+              "name": "RAM",
+              "value": "4 GB"
+            },
+            {
+              "name": "SSD Storage",
+              "value": "975 GB"
+            }
+          ],
+          "sellerPrice": 14854,
+          "costPrice": 14854,
+          "sellerPriceRenewal": 14854,
+          "costPriceRenewal": 14854
+        },
+        {
+          "name": "Plan 3",
+          "options": [
+            {
+              "name": "Unlimited Domains",
+              "value": "10"
+            },
+            {
+              "name": "Core CPU",
+              "value": "6"
+            },
+            {
+              "name": "RAM",
+              "value": "6 GB"
+            },
+            {
+              "name": "SSD Storage",
+              "value": "975 GB"
+            }
+          ],
+          "sellerPrice": 19810,
+          "costPrice": 19810,
+          "sellerPriceRenewal": 19810,
+          "costPriceRenewal": 19810
+        }
+      ],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": false,
+      "variants": [],
+      "createdAt": "2026-07-25T12:27:58.313Z",
+      "updatedAt": "2026-07-25T12:27:58.313Z"
+    },
+    {
+      "_id": "6a6d8d99533ee694bd78d62c",
+      "name": "Dynamic Website Development",
+      "packageEnabled": false,
+      "packages": [],
+      "subVariantsEnabled": false,
+      "subVariants": [],
+      "variantsEnabled": true,
+      "variants": [
+        {
+          "name": "Pages",
+          "priceEnable": false,
+          "options": [
+            {
+              "value": "Up to 5 Pages",
+              "sellerPrice": null,
+              "costPrice": null,
+              "sellerPriceRenewal": null,
+              "costPriceRenewal": null,
+              "_id": "6a6d8d99533ee694bd78d62e"
+            }
+          ],
+          "_id": "6a6d8d99533ee694bd78d62d"
+        }
+      ],
+      "createdAt": "2026-08-01T06:09:29.721Z",
+      "updatedAt": "2026-08-01T06:09:29.721Z"
+    }
+  ],
+  "revenueExpenses": [],
+  "smtpSettings": [
+    {
+      "_id": "6a425a41ccdbd34a092bd1f0",
+      "smtpHost": "cs14.webhostbox.net",
+      "smtpUsername": "billing@jayamwebsolutions.com",
+      "smtpPassword": "dab1632fdaef590d2f9b9caf:dc89ceb23fbc5d2e3ba9123cf19da65f:dacfe1c9a704ca95612ca067",
+      "smtpFromEmail": "billing@jayamwebsolutions.com",
+      "smtpFromName": "Jayam Web Solutions",
+      "smtpPort": 587,
+      "secure": true,
+      "smtpEncryption": "tls",
+      "createdAt": "2026-06-29T11:42:57.869Z",
+      "updatedAt": "2026-06-29T12:33:58.173Z",
+      "__v": 0
+    }
+  ],
+  "templates": [
+    {
+      "_id": "6a11526e1a3516100cc1963e",
+      "name": "Reminder",
+      "subject": "Renewal of [product] for www.[domainUrl]- from JAYAM WEB SOLUTIONS",
+      "content": "Dear Sir/Ma'am,\n\nReg. Renewal of [product] for www.[domainUrl]\n\nKindly make payment [price]/-INR ([price]words) for One year from [startDate] to [endDate] & confirm with payment transaction details.\n\nAccount details:\n\nGPAY :  9677876445\n\nBank Name : Indian bank\nAccount Number : 722473240\nAccount Name : Jayam Web Solutions\nBranch : West Tambaram-Chennai\nIFSC Code : IDIB000T092\nAccount Type : Current Account\nMICR CODE : 600019087\nSWIFT CODE : IDIBINBBTSY\n\nLet us know if there are any queries.\n \n --\nThanks & Regards,\nTeam  - Billing\nJayam Web Solutions\n+91 9677876445 / 9840599789\nwww.jayamwebsolutions.com",
+      "createdAt": "2026-05-23T07:08:30.446Z",
+      "updatedAt": "2026-05-26T09:56:01.235Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a4355ed1ccd450f2efe2c9c",
+      "name": "Expired",
+      "subject": "Renewal of [product] - from JAYAM WEB SOLUTIONS",
+      "content": "Dear Sir/Madam,\n   \n    We would like to inform you that your domain name and hosting   services have expired.\n\n[product table]\n\nTo avoid any interruption to your website and email services (if applicable), we request you to renew the services at the earliest.\n\n𝗥𝗲𝗻𝗲𝘄𝗮𝗹 𝗗𝗲𝘁𝗮𝗶𝗹𝘀:\n\nRenewal Amount: ₹[price]/- ([priceWords])\n\nKindly make the payment and share the transaction details for us to proceed with the renewal immediately.\n\n𝗣𝗮𝘆𝗺𝗲𝗻𝘁 𝗗𝗲𝘁𝗮𝗶𝗹𝘀:\n\nGPay: 9677876445\n\nBank Name: Indian Bank\nAccount Name: Jayam Web Solutions\nAccount Number: 722473240\nBranch: West Tambaram, Chennai\nIFSC Code: IDIB000T092\nAccount Type: Current Account\nMICR Code: 600019087\nSWIFT Code: IDIBINBBTSY\n\nImportant: Please note that if the renewal is further delayed, the domain and hosting services may become suspended or incur additional renewal or restoration charges as per the registrar/hosting provider's policy.\n\nKindly treat this as urgent and confirm the payment at the earliest.\n\n--\n \nThanks & Regards,\nLakshmi.L \nJayam Web Solutions \n+91 9677 87 6445 / 98405 99789 \nwww.jayamwebsolutions.com",
+      "createdAt": "2026-06-30T05:36:45.910Z",
+      "updatedAt": "2026-07-24T05:07:33.604Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a4355fe1ccd450f2efe2ca0",
+      "name": "Deletion",
+      "subject": " Final Reminder: [product] Renewal Pending – Services Entered Deletion Period",
+      "content": "Dear Sir/Ma’am,\n\nThis is a final reminder regarding the renewal of your [domainUrl].\n\n[product table]\n\nDespite our previous renewal reminders, we have not yet received the renewal payment or any confirmation from your end.\n\nPlease note that the expired services have now entered the deletion period. If the renewal is not completed within the permitted time, the domain may be permanently deleted, and the website, emails, and associated data may no longer be recoverable.\n\nKindly note that Jayam Web Solutions will not be responsible for any loss of the domain name, website data, email data, or backups due to non-renewal of the services.\n\nIf you wish to continue the services, kindly make the renewal payment immediately and share the payment transaction details with us.\n\n--\n \nThanks & Regards,\nLakshmi.L \nJayam Web Solutions \n+91 9677 87 6445 / 98405 99789 \nwww.jayamwebsolutions.com",
+      "createdAt": "2026-06-30T05:37:02.224Z",
+      "updatedAt": "2026-08-01T08:14:23.284Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a4358411ccd450f2efe2de7",
+      "name": "Renewal",
+      "subject": "Renewal of [product] - from JAYAM WEB SOLUTIONS",
+      "content": "Dear Sir/Ma’am,\n\nReg. Renewal of [domainUrl]\n\n[product table]\n\nKindly make payment [price] /-INR ([priceWords]) for One year & confirm with payment transaction details.\n\n𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗱𝗲𝘁𝗮𝗶𝗹𝘀:\n\nGPAY : 9677876445\n\nBank Name : Indian bank\nAccount Number : 722473240\nAccount Name : Jayam Web Solutions\nBranch : West Tambaram-Chennai\nIFSC Code : IDIB000T092\nAccount Type : Current Account\nMICR CODE : 600019087\nSWIFT CODE : IDIBINBBTSY\n\nLet us know if there are any queries.\n-- \nThanks & Regards,\nLakshmi.L \nJayam Web Solutions \n+91 9677 87 6445 / 98405 99789 \nwww.jayamwebsolutions.com",
+      "createdAt": "2026-06-30T05:46:41.147Z",
+      "updatedAt": "2026-07-24T05:14:10.724Z",
+      "__v": 0
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
