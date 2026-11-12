@@ -2,6 +2,8 @@ const Customer = require('../models/Customer');
 const Product = require('../models/Product');
 const xlsx = require('xlsx');
 
+const syncProjectClient = require("../ProjectTool/services/projectClientSync");
+
 const formatDateToDDMMYYYY = (dateVal) => {
   if (!dateVal) return '';
   const dateStr = String(dateVal).trim();
@@ -71,6 +73,17 @@ const createCustomer = async (req, res) => {
   try {
     const customer = new Customer(req.body);
     const createdCustomer = await customer.save();
+
+    try {
+      await syncProjectClient(createdCustomer);
+    } catch (syncError) {
+      console.error("ProjectDB customer sync failed:", syncError.message);
+      return res.status(502).json({
+        message:
+          "Billing customer was created, but copying it to ProjectDB failed. Retry the sync.",
+        billingCustomerId: createdCustomer._id,
+      });
+    }
 
     res.status(201).json(createdCustomer);
   } catch (error) {
@@ -149,6 +162,17 @@ const updateCustomer = async (req, res) => {
     Object.assign(customer, req.body);
     customer.markModified('orders');
     const updatedCustomer = await customer.save();
+
+    try {
+      await syncProjectClient(updatedCustomer);
+    } catch (syncError) {
+      console.error("ProjectDB customer sync failed:", syncError.message);
+      return res.status(502).json({
+        message:
+          "Billing customer was updated, but copying the changes to ProjectDB failed. Retry the sync.",
+        billingCustomerId: updatedCustomer._id,
+      });
+    }
 
     // Automatic email trigger for new payments added during update
     if (newPaymentsToSend.length > 0) {
@@ -883,12 +907,15 @@ const importCustomers = async (req, res) => {
             existing.phone = mergedPhones;
 
             await existing.save();
+            await syncProjectClient(existing);
             updatedCount++;
           } else {
+            await syncProjectClient(existing);
             unchangedCount++;
           }
         } else {
-          await Customer.create(data);
+          const createdCustomer = await Customer.create(data);
+          await syncProjectClient(createdCustomer);
           insertedCount++;
         }
       } catch (err) {

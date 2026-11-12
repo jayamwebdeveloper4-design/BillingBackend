@@ -5,20 +5,11 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const fs = require('fs');
 
-const connectDB = require('./config/db');
-const seedAdmin = require('./seedAdmin');
-
 dotenv.config();
 
-connectDB().then(async () => {
-  seedAdmin();
-  const { syncExpiredPaymentStatuses } = require('./utils/paymentStatusSync');
-  await syncExpiredPaymentStatuses();
-
-  // Migration: Update Customer createdAt date to match their first order's orderDate
-  // const { syncCustomerCreatedAtFromFirstOrder } = require('./utils/customerCreatedAtSync');
-  // await syncCustomerCreatedAtFromFirstOrder();
-});
+const connectDB = require('./config/db');
+const projectDB = require("./ProjectTool/DBconnection")
+const seedAdmin = require('./seedAdmin');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -84,31 +75,50 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+const startServer = async () => {
+  try {
+    await connectDB();
+    await projectDB();
+    await seedAdmin();
 
-    // the automatically mail function is disabled
-
-  // also comd for emailWorker.js 32 to 36 lines
-
-  // ── Daily Auto Reminder Cron (runs once 5 seconds after start, then every 24h) ──
-  // const { runAutoReminderCron } = require('./controllers/autoReminderController');
-  // const RUN_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
-  // setTimeout(async () => {
-  //   console.log('[AutoReminder] Running initial cron check...');
-  //   await runAutoReminderCron();
-  //   setInterval(async () => {
-  //     console.log('[AutoReminder] Running scheduled daily cron...');
-  //     await runAutoReminderCron();
-  //   }, RUN_INTERVAL_MS);
-  // }, 5000);
-
-  // ── Scheduled Cron for Expired Payment Statuses (runs every 24 hours) ──
-  const { syncExpiredPaymentStatuses } = require('./utils/paymentStatusSync');
-  const RUN_INTERVAL_MS = 24 * 60 * 60 * 1000;
-  setInterval(async () => {
-    console.log('⏰ [PaymentStatusCron] Running scheduled daily check for expired order payment statuses...');
+    const { syncExpiredPaymentStatuses } = require('./utils/paymentStatusSync');
     await syncExpiredPaymentStatuses();
-  }, RUN_INTERVAL_MS);
-});
+
+    // Migration: Update Customer createdAt date to match their first order's orderDate
+    // const { syncCustomerCreatedAtFromFirstOrder } = require('./utils/customerCreatedAtSync');
+    // await syncCustomerCreatedAtFromFirstOrder();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+
+      // the automatically mail function is disabled
+
+      // also comd for emailWorker.js 32 to 36 lines
+
+      // ── Daily Auto Reminder Cron (runs once 5 seconds after start, then every 24h) ──
+      // const { runAutoReminderCron } = require('./controllers/autoReminderController');
+      // const RUN_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
+      // setTimeout(async () => {
+      //   console.log('[AutoReminder] Running initial cron check...');
+      //   await runAutoReminderCron();
+      //   setInterval(async () => {
+      //     console.log('[AutoReminder] Running scheduled daily cron...');
+      //     await runAutoReminderCron();
+      //   }, RUN_INTERVAL_MS);
+      // }, 5000);
+
+      // ── Scheduled Cron for Expired Payment Statuses (runs every 24 hours) ──
+      const RUN_INTERVAL_MS = 24 * 60 * 60 * 1000;
+      setInterval(async () => {
+        console.log('⏰ [PaymentStatusCron] Running scheduled daily check for expired order payment statuses...');
+        await syncExpiredPaymentStatuses();
+      }, RUN_INTERVAL_MS);
+    });
+  } catch (error) {
+    console.error('❌ Server startup failed:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 // Nodemon reload trigger

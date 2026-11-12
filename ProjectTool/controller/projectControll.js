@@ -5,9 +5,14 @@ const Customer = require("../../models/Customer"); // adjust path
 // POST /api/projects -> one project at a time
 exports.createProject = async (req, res) => {
   try {
-    const { ProjectName, customerId, serviceName, Budget } = req.body;
+    const {
+      ProjectName: projectName,
+      customerId,
+      serviceName,
+      Budget: budget,
+    } = req.body;
 
-    if (!ProjectName || !customerId) {
+    if (!projectName || !customerId) {
       return res.status(400).json({ message: "ProjectName and customerId required" });
     }
     if (!mongoose.isValidObjectId(customerId)) {
@@ -23,10 +28,10 @@ exports.createProject = async (req, res) => {
     }
 
     const project = await Project.create({
-      ProjectName,
+      projectName,
       customerId,
       serviceName,
-      Budget, // { currency, amount }; currency defaults to ₹
+      budget, // { currency, amount }; currency defaults to ₹
       customerName: customer.name,
       customerPhone: [].concat(customer.phone || []),
       customerEmail: [].concat(customer.email || []),
