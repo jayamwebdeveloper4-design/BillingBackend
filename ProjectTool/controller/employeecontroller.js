@@ -1,4 +1,8 @@
 const connectProjectDB = require('../DBconnection');
+const {
+    employeeNameProjection,
+    getEmployeeDisplayName,
+} = require('../services/employeeDisplayName');
 
 
 
@@ -23,7 +27,7 @@ const getActiveEmployees = async (req, res, next) => {
                 .find(filter, {
                     projection: {
                         _id: 0,
-                        name: 1,
+                        ...employeeNameProjection,
                         email: 1,
                         phone: 1,
                         salary: 1,
@@ -40,7 +44,10 @@ const getActiveEmployees = async (req, res, next) => {
         ]);
 
         return res.status(200).json({
-            data: employees,
+            data: employees.map((employee) => ({
+                ...employee,
+                name: getEmployeeDisplayName(employee),
+            })),
             page,
             limit,
             total,
@@ -91,7 +98,7 @@ const getActiveEmployeeAttendance = async (req, res, next) => {
                                 {
                                     $project: {
                                         _id: 0,
-                                        name: 1,
+                                            ...employeeNameProjection,
                                         email: 1,
                                         phone: 1,
                                         salary: 1,
@@ -111,8 +118,15 @@ const getActiveEmployeeAttendance = async (req, res, next) => {
                             date: 1,
                             employeeId: '$records.employeeId',
                             name: '$employee.name',
-                            email: '$employee.email',
-                            phone: '$employee.phone',
+                            employeeName: '$employee.employeeName',
+                            fullName: '$employee.fullName',
+                            employee_name: '$employee.employee_name',
+                            displayName: '$employee.displayName',
+                            username: '$employee.username',
+                            firstName: '$employee.firstName',
+                            lastName: '$employee.lastName',
+                            first_name: '$employee.first_name',
+                            last_name: '$employee.last_name',
                             salary: '$employee.salary',
                             joiningDate: '$employee.joiningDate',
                             increments: '$employee.increments',
@@ -126,7 +140,37 @@ const getActiveEmployeeAttendance = async (req, res, next) => {
             )
             .toArray();
 
-        return res.status(200).json({ data: attendance, total: attendance.length });
+        const data = attendance.map((record) => {
+            const {
+                name,
+                employeeName,
+                fullName,
+                employee_name,
+                displayName,
+                username,
+                firstName,
+                lastName,
+                first_name,
+                last_name,
+                ...details
+            } = record;
+            return {
+                ...details,
+                name: getEmployeeDisplayName({
+                    name,
+                    employeeName,
+                    fullName,
+                    employee_name,
+                    displayName,
+                    username,
+                    firstName,
+                    lastName,
+                    first_name,
+                    last_name,
+                }),
+            };
+        });
+        return res.status(200).json({ data, total: data.length });
     } catch (error) {
         return next(error);
     }

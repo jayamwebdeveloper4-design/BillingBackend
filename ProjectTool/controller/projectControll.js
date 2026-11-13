@@ -29,7 +29,7 @@ exports.createProject = async (req, res) => {
 
     const project = await Project.create({
       projectName,
-      customerId,
+      billingCustomerId: customer._id,
       serviceName,
       budget, // { currency, amount }; currency defaults to ₹
       customerName: customer.name,

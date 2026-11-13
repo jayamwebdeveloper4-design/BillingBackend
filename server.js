@@ -10,6 +10,10 @@ dotenv.config();
 const connectDB = require('./config/db');
 const projectDB = require("./ProjectTool/DBconnection")
 const seedAdmin = require('./seedAdmin');
+const Expense = require('./models/Expenses');
+const {
+  startMonthlySalaryExpenseSchedule,
+} = require('./Service/Expenses/ExpensesUtil');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -48,6 +52,7 @@ apiRouter.use('/dashboard', require('./routes/dashboardRoutes'));
 apiRouter.use('/gst-settings', require('./routes/gstSettingRoutes'));
 apiRouter.use('/invoices', require('./routes/invoiceRoutes'));
 apiRouter.use('/revenue', require('./routes/revenueRoutes'));
+apiRouter.use('/expenses', require('./routes/expensesRoutes'));
 apiRouter.use('/auto-reminder', require('./routes/autoReminderRoutes'));
 apiRouter.use('/order-management', require('./routes/orderManagementRoutes'));
 apiRouter.use('/smtp-settings', require('./routes/smtpRoutes'));
@@ -79,6 +84,7 @@ const startServer = async () => {
   try {
     await connectDB();
     await projectDB();
+    await Expense.init();
     await seedAdmin();
 
     const { syncExpiredPaymentStatuses } = require('./utils/paymentStatusSync');
@@ -90,6 +96,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
+      startMonthlySalaryExpenseSchedule();
 
       // the automatically mail function is disabled
 
