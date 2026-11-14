@@ -275,7 +275,56 @@ customerSchema.pre('validate', function(next) {
 
 customerSchema.pre('save', function(next) {
   if (this.orders && Array.isArray(this.orders)) {
+    // Deduplicate orders by _id to prevent duplicate order entries
+    const seenOrderIds = new Set();
+    this.orders = this.orders.filter(order => {
+      if (!order || !order._id) return true;
+      const strId = order._id.toString();
+      if (seenOrderIds.has(strId)) {
+        return false;
+      }
+      seenOrderIds.add(strId);
+      return true;
+    });
+
     this.orders.forEach(order => {
+      // Evaluate payment status & milestone stages according to amounts:
+      const orderPrice = Number(order.totalPrice) || 0;
+      let runningTotal = 0;
+
+      if (order.payments && Array.isArray(order.payments)) {
+        order.payments.forEach((p, idx) => {
+          const amt = Number(p.amount) || 0;
+          runningTotal += amt;
+
+          if (idx === 0) {
+            // First payment: Full payment if clears orderPrice, otherwise Advance
+            if (orderPrice > 0 && runningTotal >= orderPrice) {
+              p.paymentStage = 'full';
+            } else {
+              p.paymentStage = 'advance';
+            }
+          } else {
+            // Subsequent payments: Final if clears orderPrice, otherwise Milestone
+            if (orderPrice > 0 && runningTotal >= orderPrice) {
+              p.paymentStage = 'final';
+            } else {
+              p.paymentStage = 'mid';
+              p.stageNumber = idx;
+            }
+          }
+        });
+      }
+
+      // Overall order payment status
+      if (runningTotal === 0) {
+        order.paymentStatus = 'Unpaid';
+      } else if (runningTotal < orderPrice) {
+        order.paymentStatus = 'Partially Paid';
+      } else {
+        order.paymentStatus = 'Fully Paid';
+      }
+
       if (order.products && Array.isArray(order.products)) {
         const validProducts = order.products.filter(
           p => p.validationEnabled && p.startDate && p.endDate

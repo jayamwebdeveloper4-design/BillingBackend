@@ -401,59 +401,6 @@ const generateInvoiceHtml = (invoice, settings) => {
     }
   }
 
-  // Payment Breakdown & History (for consolidated / milestone invoices)
-  let paymentHistoryHtml = '';
-  if (invoice.paymentHistory && Array.isArray(invoice.paymentHistory) && invoice.paymentHistory.length > 0) {
-    const historyRows = invoice.paymentHistory.map((item, hIdx) => {
-      const stageName = item.stage === 'advance' ? 'Advance Payment'
-        : item.stage === 'mid' ? `Milestone / Part Payment ${item.stageNumber ? `(#${item.stageNumber})` : ''}`
-        : item.stage === 'final' ? 'Final Settlement'
-        : (item.stage || 'Payment');
-      const dateStr = item.date ? (item.date.includes('-') ? item.date.split('-').reverse().join('.') : item.date) : '—';
-      const refStr = item.invoiceNo ? `Invoice: ${item.invoiceNo}` : (item.description || '—');
-      const amtVal = Number(item.amount) || 0;
-      return `
-        <tr>
-          <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; vertical-align: top;">${hIdx + 1}</td>
-          <td style="border: 1px solid #cbd5e1; padding: 6px 8px; vertical-align: top; font-weight: 500; color: #1e293b;">${stageName}</td>
-          <td style="border: 1px solid #cbd5e1; padding: 6px 8px; vertical-align: top; text-align: center;">${dateStr}</td>
-          <td style="border: 1px solid #cbd5e1; padding: 6px 8px; vertical-align: top; color: #475569;">${refStr}</td>
-          <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right; vertical-align: top; font-weight: 600;">₹ ${amtVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        </tr>
-      `;
-    }).join('');
-
-    const totalPaidHistorical = invoice.paymentHistory.reduce((sum, h) => sum + (Number(h.amount) || 0), 0);
-    const balanceDueVal = invoice.balanceDue !== undefined && invoice.balanceDue !== null ? Number(invoice.balanceDue) : 0;
-
-    paymentHistoryHtml = `
-      <div style="margin-top: 15px; margin-bottom: 25px;">
-        <h4 style="margin: 0 0 8px 0; font-weight: bold; color: #1e293b; font-size: 13px;">PAYMENT BREAKDOWN & HISTORY</h4>
-        <table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; font-size: 11px;">
-          <thead>
-            <tr style="background-color: #f1f5f9; color: #334155;">
-              <th style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; width: 6%;">#</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; width: 30%;">Payment Stage</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; width: 18%;">Date</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; width: 26%;">Reference / Notes</th>
-              <th style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right; width: 20%;">Amount Paid</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${historyRows}
-            <tr style="background-color: #f8fafc; font-weight: bold;">
-              <td colspan="4" style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right;">Total Paid Across Installments:</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right; color: #15803d;">₹ ${totalPaidHistorical.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            </tr>
-            <tr style="background-color: #ffffff; font-weight: bold;">
-              <td colspan="4" style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right;">Balance Remaining Due:</td>
-              <td style="border: 1px solid #cbd5e1; padding: 6px 8px; text-align: right; color: ${balanceDueVal > 0 ? '#b91c1c' : '#15803d'};">₹ ${balanceDueVal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
-  }
 
   return `
     <!DOCTYPE html>
@@ -523,14 +470,14 @@ const generateInvoiceHtml = (invoice, settings) => {
                     <tr>
                       <td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: bold; background-color: #f8fafc;">Payment Stage:</td>
                       <td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: bold; color: #2563eb; text-transform: capitalize;">
-                        ${invoice.paymentStage === 'advance' ? 'Advance Payment' : (invoice.paymentStage === 'mid' ? `Milestone / Part #${invoice.stageNumber || 1}` : (invoice.paymentStage === 'final' ? 'Final Settlement' : invoice.paymentStage))}
+                        ${invoice.paymentStage === 'advance'
+                          ? 'Advance Payment'
+                          : invoice.paymentStage === 'final'
+                          ? 'Final Amount'
+                          : invoice.paymentStage === 'mid'
+                          ? (invoice.stageNumber === 2 ? 'Second Payment' : invoice.stageNumber === 3 ? 'Third Payment' : invoice.stageNumber === 4 ? 'Fourth Payment' : `Payment #${invoice.stageNumber || 2}`)
+                          : invoice.paymentStage}
                       </td>
-                    </tr>
-                    ` : ''}
-                    ${invoice.invoiceCategory === 'consolidated' ? `
-                    <tr>
-                      <td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: bold; background-color: #f8fafc;">Invoice Type:</td>
-                      <td style="border: 1px solid #cbd5e1; padding: 6px 10px; font-weight: bold; color: #16a34a;">Consolidated Final</td>
                     </tr>
                     ` : ''}
                   </tbody>
@@ -559,8 +506,6 @@ const generateInvoiceHtml = (invoice, settings) => {
         <!-- GST Summary -->
         ${gstSummaryHtml}
 
-        <!-- Payment History Breakdown -->
-        ${paymentHistoryHtml}
 
         <!-- Bank Details + Payment Summary -->
         <div

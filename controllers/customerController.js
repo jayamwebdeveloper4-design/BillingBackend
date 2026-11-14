@@ -37,11 +37,51 @@ const getCatalogPrices = (p) => {
 const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find({}).sort({ createdAt: -1 });
-    // Sort each customer's orders by orderDate descending (latest first)
+    // Deduplicate and sort each customer's orders by orderDate descending (latest first)
     const sorted = customers.map(c => {
       const obj = c.toObject();
-      if (obj.orders && obj.orders.length > 1) {
-        obj.orders.sort((a, b) => new Date(b.orderDate || b.createdAt || 0) - new Date(a.orderDate || a.createdAt || 0));
+      if (obj.orders && obj.orders.length > 0) {
+        const seen = new Set();
+        obj.orders = obj.orders.filter(o => {
+          if (!o || !o._id) return true;
+          const idStr = o._id.toString();
+          if (seen.has(idStr)) return false;
+          seen.add(idStr);
+          return true;
+        });
+
+        // Evaluate payment status: Total Paid vs Price
+        obj.orders.forEach(o => {
+          const totalPaid = (o.payments || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+          const orderPrice = Number(o.totalPrice) || 0;
+          if (totalPaid === 0) {
+            o.paymentStatus = 'Unpaid';
+          } else if (totalPaid < orderPrice) {
+            o.paymentStatus = 'Partially Paid';
+          } else {
+            o.paymentStatus = 'Fully Paid';
+          }
+
+          if (Array.isArray(o.payments)) {
+            let midCount = 0;
+            o.payments.forEach((p, idx) => {
+              if (p.paymentStage === 'mid') {
+                midCount++;
+                if (!p.stageNumber) p.stageNumber = midCount;
+              }
+              if (orderPrice > 0 && Number(p.amount) >= orderPrice && (p.paymentStage === 'advance' || p.paymentStage === 'base')) {
+                p.paymentStage = 'full';
+              }
+              if (orderPrice > 0 && Number(p.amount) < orderPrice && idx === 0 && (p.paymentStage === 'full' || p.paymentStage === 'base')) {
+                p.paymentStage = 'advance';
+              }
+            });
+          }
+        });
+
+        if (obj.orders.length > 1) {
+          obj.orders.sort((a, b) => new Date(b.orderDate || b.createdAt || 0) - new Date(a.orderDate || a.createdAt || 0));
+        }
       }
       return obj;
     });
@@ -60,7 +100,47 @@ const getCustomerById = async (req, res) => {
     if (!customer) {
       return res.status(404).json({ message: 'Customer not found' });
     }
-    res.json(customer);
+    const obj = customer.toObject();
+    if (obj.orders && obj.orders.length > 0) {
+      const seen = new Set();
+      obj.orders = obj.orders.filter(o => {
+        if (!o || !o._id) return true;
+        const idStr = o._id.toString();
+        if (seen.has(idStr)) return false;
+        seen.add(idStr);
+        return true;
+      });
+
+      // Evaluate payment status: Total Paid vs Price
+      obj.orders.forEach(o => {
+        const totalPaid = (o.payments || []).reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+        const orderPrice = Number(o.totalPrice) || 0;
+        if (totalPaid === 0) {
+          o.paymentStatus = 'Unpaid';
+        } else if (totalPaid < orderPrice) {
+          o.paymentStatus = 'Partially Paid';
+        } else {
+          o.paymentStatus = 'Fully Paid';
+        }
+
+        if (Array.isArray(o.payments)) {
+          let midCount = 0;
+          o.payments.forEach((p, idx) => {
+            if (p.paymentStage === 'mid') {
+              midCount++;
+              if (!p.stageNumber) p.stageNumber = midCount;
+            }
+            if (orderPrice > 0 && Number(p.amount) >= orderPrice && (p.paymentStage === 'advance' || p.paymentStage === 'base')) {
+              p.paymentStage = 'full';
+            }
+            if (orderPrice > 0 && Number(p.amount) < orderPrice && idx === 0 && (p.paymentStage === 'full' || p.paymentStage === 'base')) {
+              p.paymentStage = 'advance';
+            }
+          });
+        }
+      });
+    }
+    res.json(obj);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -127,6 +207,34 @@ const updateCustomer = async (req, res) => {
 
     delete req.body.__v;
     delete req.body._id;
+
+    // Deduplicate incoming orders by _id to prevent duplicate order entries
+    if (Array.isArray(req.body.orders)) {
+      const seenOrderIds = new Set();
+      req.body.orders = req.body.orders.filter(order => {
+        const orderId = order._id || order.id;
+        if (!orderId) return true; // Keep new orders without an ID
+        const strId = String(orderId);
+        if (seenOrderIds.has(strId)) {
+          return false; // Drop duplicate order
+        }
+        seenOrderIds.add(strId);
+        return true;
+      });
+
+      // Ensure stageNumber is computed for milestone payments if missing
+      req.body.orders.forEach(order => {
+        if (Array.isArray(order.payments)) {
+          let midCounter = 0;
+          order.payments.forEach(p => {
+            if (p.paymentStage === 'mid') {
+              midCounter++;
+              if (!p.stageNumber) p.stageNumber = midCounter;
+            }
+          });
+        }
+      });
+    }
 
     // Keep track of newly added payments to send confirmation emails later
     const newPaymentsToSend = [];
@@ -2373,17 +2481,14 @@ const recordPayment = async (req, res) => {
         if (!order.payments) order.payments = [];
         order.payments.push(newPayment);
 
-        const totalPaid = order.payments.reduce((sum, p) => sum + (p.amount || 0), 0);
-        if (stageVal === 'advance' || stageVal === 'mid') {
-          order.paymentStatus = totalPaid >= (order.totalPrice || 0) ? "Fully Paid" : "Partially Paid";
-        } else if (stageVal === 'final') {
-          order.paymentStatus = "Fully Paid";
+        const totalPaid = order.payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+        const orderPrice = Number(order.totalPrice) || 0;
+        if (totalPaid === 0) {
+          order.paymentStatus = "Unpaid";
+        } else if (totalPaid < orderPrice) {
+          order.paymentStatus = "Partially Paid";
         } else {
-          if (totalPaid >= (order.totalPrice || 0)) {
-            order.paymentStatus = "Fully Paid";
-          } else {
-            order.paymentStatus = "Partially Paid";
-          }
+          order.paymentStatus = "Fully Paid";
         }
 
         updatedCount++;

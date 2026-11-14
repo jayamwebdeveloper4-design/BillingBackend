@@ -553,7 +553,8 @@ const generateInvoice = async (req, res) => {
 
     const hasMultiplePayments = targetOrdersRef.some(o => (o.payments || []).length > 1);
     const hasMilestonePayments = targetOrdersRef.some(o => (o.payments || []).some(p => ['advance', 'mid', 'final'].includes(p.paymentStage)));
-    const shouldIncludeHistory = effCategory === 'consolidated' || isStageFinal || includePaymentHistory || hasMultiplePayments || hasMilestonePayments;
+    // Complete/full invoices and separate installment invoices do not include breakdown history unless explicitly requested
+    const shouldIncludeHistory = includePaymentHistory === true;
 
     if (shouldIncludeHistory) {
       targetOrdersRef.forEach(o => {
@@ -800,6 +801,7 @@ const generateInvoice = async (req, res) => {
       paymentStage: invoice.paymentStage || effStage,
       stageNumber: invoice.stageNumber || effStageNum,
       paymentHistory: effPaymentHistory.length > 0 ? effPaymentHistory : (invoice.paymentHistory && invoice.paymentHistory.length > 0 ? invoice.paymentHistory : []),
+      includePaymentHistory: shouldIncludeHistory,
       totalOrderAmount: invoice.totalOrderAmount || totalPrice,
       totalPaidPreviously: invoice.totalPaidPreviously || historicalTotalPaid,
       balanceDue: invoice.balanceDue !== undefined ? invoice.balanceDue : effBalanceDue
