@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const Proforma = require('../models/Proforma');
-const Invoice = require('../models/Invoice');
 const GstSetting = require('../models/GstSetting');
 const { generateProformaHtml } = require('../templates/proformaTemplate');
 

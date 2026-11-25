@@ -1,22 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const { generateInvoice, getInvoices, verifyInvoiceNumber, getNextInvoiceNumber, deleteInvoice } = require('../controllers/invoiceController');
 const { protect } = require('../middleware/authMiddleware');
+const {
+  getInvoices,
+  getInvoicePdf,
+  getNextInvoiceNumber,
+  verifyInvoiceNumber,
+  generateInvoicePdf,
+  emailInvoice
+} = require('../controllers/invoiceController');
 
-// GET  /api/invoices              -> list all invoices
-router.get('/', protect, getInvoices);
+// All invoice routes protected by authMiddleware
+router.use(protect);
 
-// GET  /api/invoices/next-number  -> get predicted next invoice number
-router.get('/next-number', protect, getNextInvoiceNumber);
-router.get('/next-invoice-number', protect, getNextInvoiceNumber);
+// GET /api/invoices -> Request Invoice List (from Payment History)
+router.get('/', getInvoices);
 
-// GET  /api/invoices/verify-number -> check if invoice number exists
-router.get('/verify-number', protect, verifyInvoiceNumber);
+// GET /api/invoices/next-number -> Predict next sequential invoice number
+router.get('/next-number', getNextInvoiceNumber);
 
-// POST /api/invoices/generate     -> create/find invoice record, generate PDF
-router.post('/generate', protect, generateInvoice);
+// GET /api/invoices/verify-number -> Verify if invoice number is already assigned
+router.get('/verify-number', verifyInvoiceNumber);
 
-// DELETE /api/invoices/:id        -> delete invoice record
-router.delete('/:id', protect, deleteInvoice);
+// GET /api/invoices/:id/pdf -> Request Invoice PDF by Payment ID (download / preview)
+router.get('/:id/pdf', getInvoicePdf);
+
+// POST /api/invoices/generate -> Process and stream Invoice PDF
+router.post('/generate', generateInvoicePdf);
+
+// POST /api/invoices/:id/email -> Send Invoice PDF to customer via email
+router.post('/:id/email', emailInvoice);
 
 module.exports = router;
+

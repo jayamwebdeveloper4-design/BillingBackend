@@ -1,4 +1,6 @@
 const Customer = require('../models/Customer');
+const Order = require('../models/Order');
+const CustomerProduct = require('../models/CustomerProduct');
 const Product = require('../models/Product');
 const RevenueExpense = require('../models/RevenueExpense');
 
@@ -7,15 +9,6 @@ const RevenueExpense = require('../models/RevenueExpense');
 // @access  Private
 const getDashboardStats = async (req, res) => {
   try {
-    const customers = await Customer.find({});
-    const products = await Product.find({});
-    const expressEntries = await RevenueExpense.find({});
-
-    // 1. KPI Metrics — totalRevenue matches Revenue Management "Total Selling" for current year
-    let totalRevenue = 0;
-    let totalRenew = 0;
-    const currentYear = new Date().getFullYear();
-
     const parseDateString = (dateStr) => {
       if (!dateStr) return null;
       const parts = String(dateStr).trim().split('-');
@@ -30,109 +23,101 @@ const getDashboardStats = async (req, res) => {
       return isNaN(d.getTime()) ? null : d;
     };
 
-    customers.forEach(c => {
-      c.orders?.forEach(o => {
-        const orderSellingPrice = Number(o.totalPrice) || 0;
-
-        // Base order — only if in current year
-        const orderDate = parseDateString(o.orderDate);
-        if (orderDate && orderDate.getFullYear() === currentYear) {
-          totalRevenue += orderSellingPrice;
-          totalRenew += orderSellingPrice;
-        }
-
-        // Renewal / updated payments — only if in current year
-        o.payments?.forEach(p => {
-          if (p.paymentType === 'renewal' || p.paymentType === 'updated') {
-            const payDate = parseDateString(p.date || o.orderDate);
-            if (payDate && payDate.getFullYear() === currentYear) {
-              const renewalSelling = (p.renewalSellingPrice !== undefined && p.renewalSellingPrice !== null)
-                ? Number(p.renewalSellingPrice)
-                : (Number(p.amount) || 0);
-              totalRevenue += renewalSelling;
-              totalRenew += renewalSelling;
-            }
-          }
-        });
-      });
-    });
-
-
-    const totalExpress = expressEntries.reduce((sum, e) => sum + (e.amount || 0), 0);
-
-    const totalCustomers = customers.length;
-    const totalProducts = products.length;
-
-    // Pending Reminders (using 7 days default)
+    const currentYear = new Date().getFullYear();
     const today = new Date();
     const futureDate = new Date();
     futureDate.setDate(today.getDate() + 7);
-    const todayStr = today.toISOString().split('T')[0];
     const futureStr = futureDate.toISOString().split('T')[0];
 
-    let pendingRemindersCount = 0;
-    customers.forEach(customer => {
-      customer.orders?.forEach(order => {
-        if (order.endDate && order.endDate <= futureStr) {
-          const hasActiveValidationProd = order.products?.some(p => p.validationEnabled && !p.deactive);
-          if (hasActiveValidationProd) {
-            pendingRemindersCount++;
-          }
-        }
-      });
+    // Fetch collections concurrently
+    const [
+      totalCustomers,
+      totalProducts,
+      expressEntries,
+      orders,
+      customerProducts
+    ] = await Promise.all([
+      Customer.countDocuments({}),
+      Product.countDocuments({}),
+      RevenueExpense.find({}).select('amount').lean(),
+      Order.find({}).sort({ orderDate: -1, createdAt: -1 }).select('-__v').lean(),
+      CustomerProduct.find({}).select('-__v').lean()
+    ]);
+
+    // Group products and payments by orderId
+    const prodMap = new Map();
+    customerProducts.forEach(p => {
+      const oId = String(p.orderId);
+      if (!prodMap.has(oId)) prodMap.set(oId, []);
+      prodMap.get(oId).push(p);
     });
 
-    // 2. Bar Chart: Monthly Revenue (Total Selling) for Current Year
+    let totalRevenue = 0;
+    let totalRenew = 0;
     const monthlyRenew = Array(12).fill(0);
+    let pendingRemindersCount = 0;
 
-    customers.forEach(c => {
-      c.orders?.forEach(o => {
-        const orderSellingPrice = Number(o.totalPrice) || 0;
+    orders.forEach(o => {
+      const orderSellingPrice = Number(o.totalPrice) || 0;
+      const oProds = prodMap.get(String(o._id)) || [];
+      const oPayments = oProds.flatMap(p => p.paymentHistory || []);
 
-        // Base order monthly selling
-        const orderDate = parseDateString(o.orderDate);
-        if (orderDate && orderDate.getFullYear() === currentYear) {
-          const month = orderDate.getMonth();
+      // Base order — only if in current year
+      const orderDate = parseDateString(o.orderDate || o.createdAt);
+      if (orderDate && orderDate.getFullYear() === currentYear) {
+        totalRevenue += orderSellingPrice;
+        totalRenew += orderSellingPrice;
+        const month = orderDate.getMonth();
+        if (month >= 0 && month < 12) {
           monthlyRenew[month] += orderSellingPrice;
         }
+      }
 
-        // Renewal / updated payments monthly selling
-        o.payments?.forEach(p => {
-          if (p.paymentType === 'renewal' || p.paymentType === 'updated') {
-            const payDate = parseDateString(p.date || o.orderDate);
-            if (payDate && payDate.getFullYear() === currentYear) {
-              const month = payDate.getMonth();
-              const renewalSelling = (p.renewalSellingPrice !== undefined && p.renewalSellingPrice !== null)
-                ? Number(p.renewalSellingPrice)
-                : (Number(p.amount) || 0);
+      // Renewal / updated payments — only if in current year
+      oPayments.forEach(p => {
+        if (p.paymentType === 'renewal' || p.paymentType === 'updated') {
+          const payDate = parseDateString(p.date || o.orderDate);
+          if (payDate && payDate.getFullYear() === currentYear) {
+            const renewalSelling = (p.renewalSellingPrice !== undefined && p.renewalSellingPrice !== null)
+              ? Number(p.renewalSellingPrice)
+              : (Number(p.amount) || 0);
+            totalRevenue += renewalSelling;
+            totalRenew += renewalSelling;
+            const month = payDate.getMonth();
+            if (month >= 0 && month < 12) {
               monthlyRenew[month] += renewalSelling;
             }
           }
-        });
+        }
       });
+
+      // Pending Reminders (order endDate within next 7 days and has active validation prods)
+      if (o.endDate && o.endDate <= futureStr) {
+        const hasActiveValidationProd = oProds.some(p => p.validationEnabled && !p.deactive);
+        if (hasActiveValidationProd) {
+          pendingRemindersCount++;
+        }
+      }
     });
 
+    const totalExpress = expressEntries.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
 
-    // 3. Recent 4 Orders
-    const allOrders = [];
-    customers.forEach(c => {
-      c.orders?.forEach(o => {
-        allOrders.push({
-          ...o.toObject ? o.toObject() : o,
-          customerName: c.name,
-          customerId: c._id,
-          email: c.email
-        });
-      });
+    // Recent 4 Orders
+    const recentOrderSlice = orders.slice(0, 4);
+    const recentCustomerIds = Array.from(new Set(recentOrderSlice.map(o => String(o.customerId)).filter(Boolean)));
+    const recentCustomers = await Customer.find({ _id: { $in: recentCustomerIds } }).select('name email').lean();
+    const custMap = new Map();
+    recentCustomers.forEach(c => custMap.set(String(c._id), c));
+
+    const recentOrders = recentOrderSlice.map(o => {
+      const c = custMap.get(String(o.customerId)) || {};
+      return {
+        ...o,
+        customerName: c.name || '',
+        customerId: o.customerId,
+        email: c.email || ''
+      };
     });
-
-    const recentOrders = allOrders
-      .sort((a, b) => {
-        const dateA = parseDateString(a.orderDate) || new Date(0);
-        const dateB = parseDateString(b.orderDate) || new Date(0);
-        return dateB - dateA;
-      })
-      .slice(0, 4);
 
     res.json({
       kpis: {
@@ -148,6 +133,7 @@ const getDashboardStats = async (req, res) => {
     });
 
   } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
     res.status(500).json({ message: error.message });
   }
 };

@@ -560,7 +560,7 @@ const generateInvoiceHtml = (invoice, settings) => {
         </div>
 
         <!-- PAID INVOICE PAYMENT INFORMATION -->
-        ${!invoice.isProforma && invoice.paymentStatus === 'Paid' ? `
+        ${!invoice.isProforma && (invoice.paymentStatus === 'Paid' || !invoice.paymentStatus) ? `
         <div
           style="
             width: 48%;

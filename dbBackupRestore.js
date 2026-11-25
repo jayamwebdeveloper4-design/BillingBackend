@@ -12,8 +12,9 @@ const connectDB = require('./config/db');
 const Admin = require('./models/Admin');
 const AutoReminderSettings = require('./models/AutoReminderSettings');
 const Customer = require('./models/Customer');
+const CustomerProduct = require('./models/CustomerProduct');
+const Order = require('./models/Order');
 const GstSetting = require('./models/GstSetting');
-const Invoice = require('./models/Invoice');
 const Product = require('./models/Product');
 const RevenueExpense = require('./models/RevenueExpense');
 const SMTPSetting = require('./models/SMTPSetting');
@@ -38,8 +39,9 @@ const backup = async () => {
       admins: await Admin.find({}).lean(),
       autoReminderSettings: await AutoReminderSettings.find({}).lean(),
       customers: await Customer.find({}).lean(),
+      customerProducts: await CustomerProduct.find({}).lean(),
+      orders: await Order.find({}).lean(),
       gstSettings: await GstSetting.find({}).lean(),
-      invoices: await Invoice.find({}).lean(),
       products: await Product.find({}).lean(),
       revenueExpenses: await RevenueExpense.find({}).lean(),
       smtpSettings: await SMTPSetting.find({}).lean(),
@@ -149,12 +151,19 @@ const restore = async (filename) => {
       }
     }
 
-    // 7. Invoices
-    if (backupData.invoices && Array.isArray(backupData.invoices)) {
-      await Invoice.deleteMany({});
-      if (backupData.invoices.length > 0) {
-        await Invoice.insertMany(backupData.invoices);
-        console.log(`   - Invoices restored: ${backupData.invoices.length}`);
+    // 7. Customer Products & Orders (contains all payment histories & invoice numbers)
+    if (backupData.customerProducts && Array.isArray(backupData.customerProducts)) {
+      await CustomerProduct.deleteMany({});
+      if (backupData.customerProducts.length > 0) {
+        await CustomerProduct.insertMany(backupData.customerProducts);
+        console.log(`   - CustomerProducts restored: ${backupData.customerProducts.length}`);
+      }
+    }
+    if (backupData.orders && Array.isArray(backupData.orders)) {
+      await Order.deleteMany({});
+      if (backupData.orders.length > 0) {
+        await Order.insertMany(backupData.orders);
+        console.log(`   - Orders restored: ${backupData.orders.length}`);
       }
     }
 

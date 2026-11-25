@@ -46,6 +46,11 @@ const SMTPSettingSchema = new mongoose.Schema(
             type: String,
             enum: ["none", "ssl", "tls"],
             default: "tls"
+        },
+
+        autoReminder: {
+            type: Boolean,
+            default: false
         }
     },
     {

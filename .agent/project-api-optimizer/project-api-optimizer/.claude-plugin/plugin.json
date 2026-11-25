@@ -1,0 +1,5 @@
+{
+  "name": "project-api-optimizer",
+  "version": "1.0.0",
+  "description": "Audits and optimizes Mongoose/Express Project API endpoints, and builds only the needed secure endpoints."
+}
