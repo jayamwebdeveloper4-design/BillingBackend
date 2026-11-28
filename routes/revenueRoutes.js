@@ -1,19 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {
-  getRevenueOrders,
-  getExpressEntries,
-  addExpressEntry,
-  deleteExpressEntry,
-} = require('../controllers/revenueController');
+const { getRevenueOrders } = require('../controllers/Revenue/revenueController');
 const { protect } = require('../middleware/authMiddleware');
 
-// Revenue orders (aggregated from customer orders)
-router.get('/orders', protect, getRevenueOrders);
-
-// Express entries
-router.get('/express', protect, getExpressEntries);
-router.post('/express', protect, addExpressEntry);
-router.delete('/express/:id', protect, deleteExpressEntry);
+// Revenue orders (aggregated from customer products, orders & payments)
+router.get('/', protect, getRevenueOrders);
 
 module.exports = router;

@@ -317,11 +317,36 @@ const createOrder = async (req, res) => {
     const productDocs = products.map((p) => {
       const { customerDetails: _cd, paymentStatus: _ps, ...rest } = p;
 
+      const cleanedRenewalHistory = Array.isArray(p.renewalHistory)
+        ? p.renewalHistory.map((cycle, idx) => ({
+            ...cycle,
+            cycleNumber: Number(cycle.cycleNumber) || idx + 1,
+            startDate: String(cycle.startDate || ''),
+            endDate: String(cycle.endDate || ''),
+            totalAmount: round2(num(cycle.totalAmount)),
+            paidAmount: round2(num(cycle.paidAmount)),
+            paymentStatus: ['Unpaid', 'Partially Paid', 'Paid'].includes(cycle.paymentStatus)
+              ? cycle.paymentStatus
+              : 'Unpaid',
+            renewalStatus: ['upcoming', 'active', 'complete'].includes(cycle.renewalStatus)
+              ? cycle.renewalStatus
+              : 'upcoming',
+            paymentStages: Array.isArray(cycle.paymentStages)
+              ? cycle.paymentStages.map((st) => ({
+                  ...st,
+                  amount: round2(num(st.amount)),
+                  gstvalue: round2(num(st.gstvalue)),
+                }))
+              : [],
+          }))
+        : [];
+
       return {
         ...rest,
         price: round2(num(p.price)),
         costPrice: round2(num(p.costPrice)),
         quantity: Number(p.quantity) || 1,
+        renewalHistory: cleanedRenewalHistory,
         paymentHistory: Array.isArray(p.paymentHistory)
           ? p.paymentHistory.map(cleanPayment)
           : []

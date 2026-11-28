@@ -285,6 +285,10 @@ customerProductSchema.index({
   endDate: 1,
   renewalStatus: 1,
 });
+customerProductSchema.index({ 'paymentHistory.date': 1 });
+customerProductSchema.index({ 'paymentHistory.paymentHistory.payDate': 1 });
+customerProductSchema.index({ startDate: 1 });
+customerProductSchema.index({ createdAt: 1 });
 
 // Global renewal queries (Renewal Processing Engine & Reminders without customerId)
 customerProductSchema.index({ productType: 1, renewalStatus: 1, deactive: 1, endDate: 1 });

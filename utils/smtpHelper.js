@@ -32,10 +32,23 @@ const normalizeSmtpSettings = (settings) => {
     };
 };
 
+let cachedSmtpSettings = null;
+
 /**
- * Get SMTP settings from database
+ * Clear cached SMTP settings (call when settings are updated)
+ */
+const clearSmtpSettingsCache = () => {
+    cachedSmtpSettings = null;
+};
+
+/**
+ * Get SMTP settings from database (with in-memory cache)
  */
 const getSmtpSettingsFromDb = async () => {
+    if (cachedSmtpSettings) {
+        return cachedSmtpSettings;
+    }
+
     const settings = await SmtpSetting.findOne();
 
     if (!settings) {
@@ -44,13 +57,16 @@ const getSmtpSettingsFromDb = async () => {
 
     const normalized = normalizeSmtpSettings(settings.toObject());
 
-    return {
+    cachedSmtpSettings = {
         ...normalized,
         password: decryptString(normalized.password),
     };
+
+    return cachedSmtpSettings;
 };
 
 module.exports = {
     normalizeSmtpSettings,
     getSmtpSettingsFromDb,
+    clearSmtpSettingsCache,
 };

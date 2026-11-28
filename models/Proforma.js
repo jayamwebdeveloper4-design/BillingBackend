@@ -85,10 +85,20 @@ const proformaSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    default: ""
+  },
   note: {
     type: String,
     default: "If you have any doubt on this invoice, please contact us at: 9677 87 6445 / 98405 99789"
   }
 }, { timestamps: true });
+
+
+
+// models/Proforma.js
+proformaSchema.index({ proforma_no: 1 }, { unique: true });
+proformaSchema.index({ createdAt: -1, _id: -1 });
 
 module.exports = mongoose.model('Proforma', proformaSchema);

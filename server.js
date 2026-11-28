@@ -54,6 +54,7 @@ apiRouter.use('/dashboard', require('./routes/dashboardRoutes'));
 apiRouter.use('/gst-settings', require('./routes/gstSettingRoutes'));
 apiRouter.use('/invoices', require('./routes/invoiceRoutes'));
 apiRouter.use('/revenue', require('./routes/revenueRoutes'));
+apiRouter.use('/reports', require('./routes/reportRoutes'));
 apiRouter.use('/expenses', require('./routes/expensesRoutes'));
 apiRouter.use('/auto-reminder', require('./routes/autoReminderRoutes'));
 // apiRouter.use('/order-management', require('./routes/orderManagementRoutes'));

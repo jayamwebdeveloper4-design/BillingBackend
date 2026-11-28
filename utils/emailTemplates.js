@@ -112,26 +112,40 @@ const paymentConfirmationTemplate = (subject, content) => {
 
 const loginOtpTemplate = (otp, validityMinutes = 5) => {
   return `
-    <div style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 20px auto; border: 1px solid #e2e8f0; border-top: 5px solid #004a99; border-radius: 12px; padding: 32px; box-shadow: 0 4px 18px rgba(0,0,0,0.06); background-color: #ffffff;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #004a99; background-color: rgba(0, 74, 153, 0.08); padding: 5px 12px; border-radius: 30px;">Secure Login Verification</span>
-      </div>
-      <h2 style="color: #1e293b; text-align: center; font-size: 22px; font-weight: 700; margin: 0 0 10px 0;">Sign in to Billing Manager</h2>
-      <p style="font-size: 15px; color: #475569; text-align: center; line-height: 1.6; margin: 0 0 24px 0;">
-        Use the one-time verification code below to complete your passwordless login.
-      </p>
-      <div style="background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%); border: 1px dashed #cbd5e1; border-radius: 10px; padding: 22px; text-align: center; margin: 0 0 24px 0;">
-        <span style="font-family: 'Courier New', Courier, monospace; color: #004a99; font-size: 38px; font-weight: 800; letter-spacing: 12px; margin-left: 12px;">${otp}</span>
-      </div>
-      <p style="font-size: 13px; color: #64748b; text-align: center; margin: 0 0 18px 0;">
-        ⏳ This code is valid for <strong>${validityMinutes} minutes</strong> and can only be used once.
-      </p>
-      <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">
-        If you did not request this login code, please safely disregard this email.
-      </p>
-      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 28px 0 18px 0;">
-      <p style="font-size: 11px; color: #94a3b8; text-align: center; margin: 0; line-height: 1.5;">&copy; ${new Date().getFullYear()} Jayam Web Solutions. All rights reserved.</p>
-    </div>
+<div style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 580px; margin: 20px auto; border: 1px solid #e2e8f0; border-top: 5px solid #004a99; border-radius: 12px; padding: 32px; box-shadow: 0 4px 18px rgba(0,0,0,0.06); background-color: #ffffff;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #004a99; background-color: rgba(0, 74, 153, 0.08); padding: 5px 12px; border-radius: 30px;">
+      Secure Login Verification
+    </span>
+  </div>
+  
+  <h2 style="color: #1e293b; text-align: center; font-size: 22px; font-weight: 700; margin: 0 0 10px 0;">
+    Sign in to Billing Manager
+  </h2>
+  
+  <p style="font-size: 15px; color: #475569; text-align: center; line-height: 1.6; margin: 0 0 24px 0;">
+    Your Billing Manager verification code is <strong>${otp}</strong>. Enter this code to complete your login.
+  </p>
+  
+  <div style="background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%); border: 1px dashed #cbd5e1; border-radius: 10px; padding: 22px; text-align: center; margin: 0 0 24px 0;">
+    <span style="font-family: 'Courier New', Courier, monospace; color: #004a99; font-size: 38px; font-weight: 800; letter-spacing: 12px; margin-left: 12px;">${otp}</span>
+  </div>
+  
+  <p style="font-size: 13px; color: #64748b; text-align: center; margin: 0 0 18px 0;">
+    ⏳ This OTP is valid for <strong>${validityMinutes} minutes</strong> and can only be used once.
+  </p>
+  
+  <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">
+    If you did not request this verification code, please safely disregard this email.
+  </p>
+  
+  <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 28px 0 18px 0;">
+  
+  <p style="font-size: 11px; color: #94a3b8; text-align: center; margin: 0; line-height: 1.5;">
+    &copy; ${new Date().getFullYear()} Jayam Web Solutions. All rights reserved.
+  </p>
+</div>
+
   `;
 };
 

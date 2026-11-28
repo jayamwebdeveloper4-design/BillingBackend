@@ -444,7 +444,7 @@ const generateInvoiceHtml = (invoice, settings) => {
                 <div style="">
                   <p style="margin: 0 0 4px 0; font-weight: bold; font-size: 13px;">${invoice.customerName}</p>
                   <p style="margin: 0 0 4px 0; white-space: pre-wrap; line-height: 1.5; color: #334155;">${invoice.customerAddress || ''}</p>
-                  ${(invoice.customerGstin && invoice.withGst) ? `<p style="margin: 0; font-weight: bold;">GSTIN: ${invoice.customerGstin}</p>` : ''}
+                  ${invoice.customerGstin && String(invoice.customerGstin).trim() ? `<p style="margin: 0; font-weight: bold;">GSTIN: ${String(invoice.customerGstin).trim()}</p>` : ''}
                 </div>
               </td>
 

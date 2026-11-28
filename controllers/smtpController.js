@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 const SmtpSetting = require("../models/SMTPSetting");
 const { encryptString, decryptString } = require("../utils/cryptoHelper");
-const { normalizeSmtpSettings, getSmtpSettingsFromDb } = require("../utils/smtpHelper");
+const { normalizeSmtpSettings, getSmtpSettingsFromDb, clearSmtpSettingsCache } = require("../utils/smtpHelper");
+const sendEmail = require("../utils/sendEmail");
 
 // @desc    Get global SMTP settings
 // @route   GET /api/smtp-settings
@@ -88,6 +89,8 @@ const updateSmtpSettings = async (req, res) => {
             settings.secure = secure;
 
         const updatedSettings = await settings.save();
+        clearSmtpSettingsCache();
+        sendEmail.clearTransporterCache();
         const result = updatedSettings.toObject();
         result.smtpPassword = decryptString(result.smtpPassword);
 

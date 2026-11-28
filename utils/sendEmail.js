@@ -1,7 +1,59 @@
 const nodemailer = require('nodemailer');
 const { getSmtpSettingsFromDb } = require('./smtpHelper');
 
+let cachedTransporter = null;
+let cachedTransporterKey = null;
+
+const clearTransporterCache = () => {
+  if (cachedTransporter && typeof cachedTransporter.close === 'function') {
+    cachedTransporter.close();
+  }
+  cachedTransporter = null;
+  cachedTransporterKey = null;
+};
+
+const getOrCreateTransporter = (smtpSettings) => {
+  const key = `${smtpSettings.host}|${smtpSettings.port}|${smtpSettings.encryption}|${smtpSettings.username}|${smtpSettings.password}`;
+  if (cachedTransporter && cachedTransporterKey === key) {
+    return cachedTransporter;
+  }
+
+  clearTransporterCache();
+
+  const isSsl = smtpSettings.encryption === 'ssl';
+  const isTls = smtpSettings.encryption === 'tls';
+
+  const transporterOptions = {
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
+    host: smtpSettings.host,
+    port: smtpSettings.port,
+    auth: {
+      user: smtpSettings.username,
+      pass: smtpSettings.password,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  };
+
+  if (isSsl) {
+    transporterOptions.secure = true;
+  } else if (isTls) {
+    transporterOptions.secure = false;
+    transporterOptions.requireTLS = true;
+  } else {
+    transporterOptions.secure = false;
+  }
+
+  cachedTransporter = nodemailer.createTransport(transporterOptions);
+  cachedTransporterKey = key;
+  return cachedTransporter;
+};
+
 const getCcRecipients = (options) => {
+  if (options.skipCc) return undefined;
   const configuredCc = options.cc || process.env.CC_EMAIL || process.env.EMAIL_CC || process.env.SMTP_CC || process.env.CC;
 
   if (!configuredCc) return undefined;
@@ -25,31 +77,8 @@ const sendEmail = async (options) => {
     throw new Error('SMTP settings are not configured. Please configure SMTP settings first.');
   }
 
+  const transporter = getOrCreateTransporter(smtpSettings);
   const isSsl = smtpSettings.encryption === 'ssl';
-  const isTls = smtpSettings.encryption === 'tls';
-
-  const transporterOptions = {
-    host: smtpSettings.host,
-    port: smtpSettings.port,
-    auth: {
-      user: smtpSettings.username,
-      pass: smtpSettings.password,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  };
-
-  if (isSsl) {
-    transporterOptions.secure = true;
-  } else if (isTls) {
-    transporterOptions.secure = false;
-    transporterOptions.requireTLS = true;
-  } else {
-    transporterOptions.secure = false;
-  }
-
-  const transporter = nodemailer.createTransport(transporterOptions);
 
   const fromName = smtpSettings.fromName || 'Billing Manager';
   const authFrom = smtpSettings.username;
@@ -77,7 +106,7 @@ const sendEmail = async (options) => {
     ...(ccRecipients ? { cc: ccRecipients } : {}),
   };
 
-  console.log(`📧 Sending email via SMTP host=${smtpSettings.host} port=${smtpSettings.port} secure=${transporterOptions.secure}`);
+  console.log(`📧 Sending email via SMTP host=${smtpSettings.host} port=${smtpSettings.port} secure=${isSsl}`);
   console.log(`📧 From header: "${fromName}" <${authFrom}>`);
   if (replyTo) {
     console.log(`📧 Reply-To: ${replyTo}`);
@@ -89,7 +118,6 @@ const sendEmail = async (options) => {
   }
 
   try {
-    await transporter.verify();
     const info = await transporter.sendMail(mailOptions);
     console.log(`📧 Email sent: ${info.messageId}`);
     console.log('📧 SMTP accepted recipients:', info.accepted);
@@ -100,5 +128,7 @@ const sendEmail = async (options) => {
     throw error;
   }
 };
+
+sendEmail.clearTransporterCache = clearTransporterCache;
 
 module.exports = sendEmail;

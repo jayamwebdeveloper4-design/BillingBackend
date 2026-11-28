@@ -1,0 +1,55 @@
+[
+  {
+    "id": "1795762201719-fshc19",
+    "timestamp": "2026-11-27T06:50:01.719Z",
+    "version": "3.0",
+    "structure": "3-collections",
+    "action": "restore",
+    "filename": "uploaded_or_cli_restore",
+    "status": "success",
+    "sourceVersion": "2.0",
+    "totalRecords": 1187,
+    "stats": {
+      "admins": 7,
+      "autoReminderSettings": 1,
+      "gstSettings": 1,
+      "smtpSettings": 1,
+      "templates": 5,
+      "customers": 241,
+      "orders": 331,
+      "customerProducts": 549,
+      "products": 11,
+      "proformas": 31,
+      "expenses": 9,
+      "revenueExpenses": 0
+    },
+    "restoredAt": "2026-11-27T06:50:01.718Z"
+  },
+  {
+    "id": "1795762201204-3ywxie",
+    "timestamp": "2026-11-27T06:50:01.204Z",
+    "version": "3.0",
+    "structure": "3-collections",
+    "action": "pre_restore_safety",
+    "filename": "pre_restore_safety_2026-11-27T06-50-01-199Z.json",
+    "status": "success",
+    "fileSize": 6218,
+    "fileSizeFormatted": "6.07 KB",
+    "totalRecords": 17,
+    "stats": {
+      "admins": 7,
+      "autoReminderSettings": 0,
+      "gstSettings": 0,
+      "smtpSettings": 1,
+      "templates": 0,
+      "customers": 0,
+      "orders": 0,
+      "customerProducts": 0,
+      "products": 0,
+      "proformas": 0,
+      "expenses": 9,
+      "revenueExpenses": 0
+    },
+    "exportedAt": "2026-11-27T06:50:01.199Z"
+  }
+]

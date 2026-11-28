@@ -89,6 +89,6 @@ orderSchema.index({
   emailSend: 1,
   createdAt: -1
 });
-
+orderSchema.index({ orderDate: 1 });
 module.exports = mongoose.model('Order', orderSchema);
 

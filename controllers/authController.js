@@ -41,9 +41,11 @@ const requestLoginOtp = async (req, res) => {
     const ipLimitWindow = Number(process.env.OTP_RATE_LIMIT_IP_WINDOW_SECONDS) || 600;
     const otpTtl = Number(process.env.OTP_EXPIRY_SECONDS) || 300;
 
-    // 1. Velocity rate-limit check
-    const emailLimit = await checkRateLimit(email, emailLimitCount, emailLimitWindow);
-    const ipLimit = await checkRateLimit(clientIp, ipLimitCount, ipLimitWindow);
+    // 1. Velocity rate-limit check (parallelized)
+    const [emailLimit, ipLimit] = await Promise.all([
+      checkRateLimit(email, emailLimitCount, emailLimitWindow),
+      checkRateLimit(clientIp, ipLimitCount, ipLimitWindow),
+    ]);
 
     if (!emailLimit.allowed || !ipLimit.allowed) {
       logActivity(email, "AUTH", "RATE_LIMIT", "Too many OTP requests");
@@ -80,8 +82,9 @@ const requestLoginOtp = async (req, res) => {
       const validityMinutes = Math.ceil(otpTtl / 60);
       await sendEmail({
         email: admin.email,
-        subject: "Your Billing Manager Login Code",
+        subject: "Your OTP For Billing Manager",
         message: loginOtpTemplate(rawOtp, validityMinutes),
+        skipCc: true,
       });
       logActivity(email, "AUTH", "OTP_SENT", "Login OTP dispatched to email");
     } catch (mailErr) {

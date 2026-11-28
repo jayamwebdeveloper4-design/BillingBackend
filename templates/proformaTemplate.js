@@ -941,6 +941,14 @@ if (isWithGst) {
           </tbody>
         </table>
 
+        ${proforma.description ? `
+        <!-- Description -->
+        <div style="margin-bottom: 20px; font-size: 12px; color: #334155;">
+          <span style="font-weight: bold; color: #000;">Description:</span>
+          <p style="margin: 4px 0 0 0; white-space: pre-wrap; line-height: 1.5;">${proforma.description}</p>
+        </div>
+        ` : ''}
+
         <!-- GST Summary -->
         ${gstSummaryHtml}
 

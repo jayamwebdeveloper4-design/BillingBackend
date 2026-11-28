@@ -2,7 +2,6 @@ const Customer = require('../models/Customer');
 const Order = require('../models/Order');
 const CustomerProduct = require('../models/CustomerProduct');
 const Product = require('../models/Product');
-const RevenueExpense = require('../models/RevenueExpense');
 
 // @desc    Get dashboard stats
 // @route   GET /api/dashboard/stats
@@ -33,13 +32,11 @@ const getDashboardStats = async (req, res) => {
     const [
       totalCustomers,
       totalProducts,
-      expressEntries,
       orders,
       customerProducts
     ] = await Promise.all([
       Customer.countDocuments({}),
       Product.countDocuments({}),
-      RevenueExpense.find({}).select('amount').lean(),
       Order.find({}).sort({ orderDate: -1, createdAt: -1 }).select('-__v').lean(),
       CustomerProduct.find({}).select('-__v').lean()
     ]);
@@ -100,7 +97,7 @@ const getDashboardStats = async (req, res) => {
       }
     });
 
-    const totalExpress = expressEntries.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+    const totalExpress = 0;
 
     // Recent 4 Orders
     const recentOrderSlice = orders.slice(0, 4);
